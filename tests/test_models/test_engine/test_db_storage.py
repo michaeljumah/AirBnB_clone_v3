@@ -86,3 +86,18 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+    
+    def test_get_pace(self):
+        """... checks if get() function returns properly"""
+        duplicate = storage.get('Place', self.p1.id)
+        expected = self.p1.id
+        self.assertEqual(expected, duplicate.id)
+
+    def test_count_all(self):
+        """... checks if count() functions with no class"""
+        count_all = storage.count()
+        expected = 8
+        self.assertEqual(expected, count_all)
+
+if __name__ == '__main__':
+    unittest.main
