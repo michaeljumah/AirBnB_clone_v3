@@ -3,7 +3,7 @@
 Flask App that integrates with AirBnB static HTML Template
 """
 from api.v1 import app_views
-from flask import Flask,
+from flask import Flask
 from models import storage
 import os
 
