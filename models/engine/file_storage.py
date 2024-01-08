@@ -73,9 +73,10 @@ class FileStorage:
         if cls and id:
             take_obj = '{}.{}'.format(cls,id)
             all_obj = self.all(cls)
-            return (all_obj.get(take_obj))
+            return all_obj.get(take_obj)
         else:
             return None
+
     def count(self, cls=None):
-        '''class that should be optional'''
+        '''all counted objects stored'''
         return (len(self.all(cls)))
