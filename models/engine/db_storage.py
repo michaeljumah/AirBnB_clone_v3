@@ -75,17 +75,38 @@ class DBStorage:
         """call remove() method on the private session attribute"""
         self.__session.remove()
     
-    def get(self, cls,id):
-        '''a method to retrieve one object'''
-        if cls and id:
-            fetch = "{}.{}".format(cls,id)
-            allobj = self.all(cls)
-            return allobj.get(fetch)
-        return None
+     def get(self, cls, id_):
+        """
+        Retrieve one object
+
+        Arguments:
+            cls: string representing a class name
+            id_: string representing the object id, primary key
+
+        Return:
+           object of cls and id passed in argument or None
+        """
+        if (cls not in self._models_available) or (id_ is None):
+            return None
+        return self.__session.query(
+                self._models_available[cls]).get(id_)
 
     def count(self, cls=None):
-        '''returns the count of all stored objects'''
-        return (len(self.all(cls)))
+        """
+        Number of objects in a certain class
 
+        Arguments:
+            cls: optional, string representing a class name (default None)
 
-        
+        Return:
+            number of objects in that class or in total
+            -1 if the argument is not valid
+        """
+        if cls is None:
+            total = 0
+            for v in self._models_available.values():
+                total += self._session.query(v).count()
+            return total
+        if cls in self._models_available.keys():
+            return self.__session.query(self._models_available[cls]).count()
+        return -1
