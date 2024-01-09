@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Contains the FileStorage class
+Flask App that integrates with AirBnB static HTML Template
 """
 from flask import Flask, jsonify
 from models import storage
