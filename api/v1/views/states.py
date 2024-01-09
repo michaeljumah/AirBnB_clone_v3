@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""Defines a new view for State resources."""
 from flask import jsonify, abort, request
 from api.v1.views import app_views
 from models import storage, State
@@ -6,11 +7,13 @@ import json
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 def get_states():
+    """Retrieves all state objects."""
     states = storage.all(State).values()
     return jsonify([state.to_dict() for state in states])
 
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def get_state(state_id):
+    """Retrieves the state object using its ID."""
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
@@ -18,6 +21,7 @@ def get_state(state_id):
 
 @app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
 def delete_state(state_id):
+    """Deletes a state object."""
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
@@ -40,6 +44,7 @@ def create_state():
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def update_state(state_id):
+    """Creates a new state object."""
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
