@@ -24,7 +24,7 @@ class DBStorage:
        __session: private, MySQL session
 
     instance attributes:
-       _models_available: private, dictionary of <string> <class>
+       __models_available: private, dictionary of <string> <class>
     """
     __engine = None
     __session = None
@@ -39,7 +39,7 @@ class DBStorage:
             getenv('HBNB_MYSQL_HOST'),
             getenv('HBNB_MYSQL_DB')))
         # adding, echo=True) shows SQL statements
-        self._models_available = {"User": User,
+        self.__models_available = {"User": User,
                                    "Amenity": Amenity, "City": City,
                                    "Place": Place, "Review": Review,
                                    "State": State}
@@ -52,12 +52,12 @@ class DBStorage:
         """
         orm_objects = {}
         if cls:
-            if cls in self._models_available:
+            if cls in self.__models_available:
                 for k in self.__session.query(
-                        self._models_available.get(cls)):
+                        self.__models_available.get(cls)):
                     orm_objects[k.__dict__['id']] = k
         else:
-            for i in self._models_available.values():
+            for i in self.__models_available.values():
                 j = self.__session.query(i).all()
                 if j:
                     for k in j:
@@ -110,10 +110,10 @@ class DBStorage:
         Return:
            object of cls and id passed in argument or None
         """
-        if (cls not in self._models_available) or (id_ is None):
+        if (cls not in self.__models_available) or (id_ is None):
             return None
         return self.__session.query(
-                self._models_available[cls]).get(id_)
+                self.__models_available[cls]).get(id_)
 
     def count(self, cls=None):
         """
@@ -128,9 +128,9 @@ class DBStorage:
         """
         if cls is None:
             total = 0
-            for v in self._models_available.values():
+            for v in self.__models_available.values():
                 total += self.__session.query(v).count()
             return total
-        if cls in self._models_available.keys():
-            return self.__session.query(self._models_available[cls]).count()
+        if cls in self.__models_available.keys():
+            return self.__session.query(self.__models_available[cls]).count()
         return -1

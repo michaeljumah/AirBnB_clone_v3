@@ -34,7 +34,7 @@ class FileStorage:
 
     def __init__(self):
         """Instantiate the class"""
-        self._models_available = {"User": User, "BaseModel": BaseModel,
+        self.__models_available = {"User": User, "BaseModel": BaseModel,
                                    "Amenity": Amenity, "City": City,
                                    "Place": Place, "Review": Review,
                                    "State": State}
@@ -88,10 +88,10 @@ class FileStorage:
             return
         for k in temp.keys():
             cls = temp[k].pop("__class__", None)
-            if cls not in self._models_available.keys():
+            if cls not in self.__models_available.keys():
                 continue
             # call a good init function
-            FileStorage.__objects[k] = self._models_available[cls](**temp[k])
+            FileStorage.__objects[k] = self.__models_available[cls](**temp[k])
 
     def delete(self, obj=None):
         """Remove an object from the dictionary"""
@@ -114,7 +114,7 @@ class FileStorage:
         Return:
            object of cls and id passed in argument
         """
-        if (cls not in self._models_available.keys()) or (id_ is None):
+        if (cls not in self.__models_available.keys()) or (id_ is None):
             return None
         all_objs = self.all(cls)
         for k in all_objs.keys():
@@ -135,6 +135,6 @@ class FileStorage:
         """
         if cls is None:
             return len(self.__objects)
-        if cls in self._models_available:
+        if cls in self.__models_available:
             return len(self.all(cls))
         return -1
