@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-# api/v1/views/places.py
+'''Defines a view for place object'''
 from flask import jsonify, abort, request
 from api.v1.views import app_views
 from models import storage, City, User, Place
